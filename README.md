@@ -3,114 +3,114 @@
 [![npm version](https://img.shields.io/npm/v/standup-from-git.svg)](https://www.npmjs.com/package/standup-from-git)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/christiancaviedes/standup-from-git/pulls)
 
-**Your standup writes itself. In 5 seconds.**
+## Your standup writes itself. In 5 seconds.
 
-Stop scrambling every morning trying to remember what you did yesterday. `standup-from-git` reads your git history, optionally pulls in Jira context, and uses Claude AI to generate a clean, professional standup summary.
+Every morning, engineers waste 5 minutes scrambling to remember what they did yesterday — context-switching right as they're trying to get into flow. `standup-from-git` reads your git history, optionally enriches it with Jira context, and uses Claude AI to write a clean, professional standup you can paste into Slack and move on.
 
-## How It Works
+No more "uhh I think I worked on auth stuff?" moments. Your commits tell the story — this tool just summarizes it.
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Git Log   │ ──▶ │    Jira     │ ──▶ │  Claude AI  │ ──▶ │   Standup   │
-│  (commits)  │     │  (optional) │     │  (summary)  │     │   Output    │
-└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
-```
+---
 
-1. Pulls your git commits from the last working day
-2. Extracts ticket numbers (PROJ-123) and fetches Jira context
-3. Sends to Claude AI with a carefully tuned prompt
-4. Outputs a clean standup ready to paste into Slack
+## Features
 
-## Installation
+- **Zero-config start** — works out of the box with just your Anthropic API key
+- **Jira-aware** — auto-fetches ticket titles and summaries from commit references (PROJ-123)
+- **Slack-ready output** — post directly to a channel via webhook
+- **Multiple formats** — bullets, prose, or Slack-emoji style
+- **Custom date ranges** — catch up on multi-day absences
+- **Multi-repo support** — run across several repos at once
+- **Configurable identity** — filter by git author email for shared machines
+- **Fully local** — your commits never leave your machine except to the Claude API
+
+---
+
+## Install
 
 ```bash
 # Install globally
 npm install -g standup-from-git
 
-# Or run directly with npx
+# Or use without installing
 npx standup-from-git
 ```
+
+---
 
 ## Quick Start
 
 ```bash
-# Set your Anthropic API key
+# 1. Set your API key
 export ANTHROPIC_API_KEY=sk-ant-...
 
-# Generate today's standup
+# 2. Generate today's standup
 standup generate
 
-# That's it. Copy the output, paste into Slack.
+# 3. Copy. Paste. Done.
 ```
 
-## Usage Examples
+---
 
-### Basic (git only)
+## Demo
 
-```bash
-standup generate
+```
+$ standup generate
+
+Fetching commits since Friday...
+Found 6 commits across 2 branches.
+Generating standup with Claude...
+
+────────────────────────────────────────────
+ Daily Standup — Monday, April 21, 2026
+────────────────────────────────────────────
+
+Yesterday:
+• Implemented JWT refresh token rotation and added Redis session store (AUTH-234)
+• Fixed pagination bug in /api/v2/dashboard — was returning duplicate records on
+  page boundaries (BUG-891)
+• Reviewed and merged PR #142: new full-text search feature from @sarahdev
+
+Today:
+• Wire up rate limiting middleware for auth endpoints (AUTH-235)
+• Write integration tests for the token rotation flow
+• Team sync at 2pm — Q2 roadmap discussion
+
+Blockers:
+• None
+
+────────────────────────────────────────────
+Copied to clipboard.
 ```
 
-### With Jira integration
+---
+
+## Usage
 
 ```bash
+# With Jira integration (fetches ticket details from commit refs)
 standup generate --jira
-```
 
-### Custom date range
-
-```bash
-# Last 3 days
+# Custom date range
 standup generate --since "3 days ago"
-
-# Specific range
 standup generate --since 2026-04-15 --until 2026-04-17
-```
 
-### Different output formats
-
-```bash
-# Bullet points (default)
-standup generate --format bullets
-
-# Prose style
+# Different output formats
+standup generate --format bullets    # default
 standup generate --format prose
+standup generate --format slack      # includes emoji
 
-# Slack-formatted (with emoji)
-standup generate --format slack
-```
-
-### Post directly to Slack
-
-```bash
+# Post directly to Slack
 standup generate --slack
-```
 
-### Different repository
-
-```bash
+# Different repo
 standup generate --repo ~/projects/my-other-repo
+
+# Interactive config setup
+standup config
 ```
 
-## Example Output
-
-```
-📋 Daily Standup — April 18, 2026
-
-**Yesterday:**
-• Implemented user authentication flow with JWT refresh tokens (AUTH-234)
-• Fixed pagination bug in dashboard API that was causing duplicate entries (BUG-891)
-• Reviewed and merged PR #142 for the new search feature
-
-**Today:**
-• Continue work on rate limiting middleware (AUTH-235)
-• Write integration tests for the auth flow
-• Team sync at 2pm to discuss Q2 roadmap
-
-**Blockers:**
-• None currently
-```
+---
 
 ## Configuration
 
@@ -120,15 +120,7 @@ standup generate --repo ~/projects/my-other-repo
 standup config
 ```
 
-This launches an interactive wizard to configure:
-- Git author email
-- Jira credentials
-- Slack webhook
-- Default output format
-
-### Config File
-
-Configuration is stored in `~/.standup-from-git/config.json`:
+### Config File (`~/.standup-from-git/config.json`)
 
 ```json
 {
@@ -148,23 +140,47 @@ Configuration is stored in `~/.standup-from-git/config.json`:
 | Variable | Description |
 |----------|-------------|
 | `ANTHROPIC_API_KEY` | **Required.** Your Claude API key |
-| `JIRA_TOKEN` | Jira API token (if using --jira) |
-| `SLACK_WEBHOOK_URL` | Slack webhook URL (if using --slack) |
+| `JIRA_TOKEN` | Jira API token (if using `--jira`) |
+| `SLACK_WEBHOOK_URL` | Slack webhook (if using `--slack`) |
+
+---
+
+## How It Works
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   git log   │────▶│  Jira API   │────▶│  Claude AI  │────▶│   Standup   │
+│  (commits)  │     │  (optional) │     │  (summary)  │     │   output    │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+```
+
+1. Reads your git commits from the last working day (skips weekends)
+2. Extracts ticket numbers (e.g. `PROJ-123`) and fetches Jira title + status
+3. Sends structured commit data to Claude with a carefully tuned prompt
+4. Returns a clean standup formatted to your preference
+
+---
 
 ## Requirements
 
 - Node.js 18+
 - Git
-- Anthropic API key ([get one here](https://console.anthropic.com))
+- [Anthropic API key](https://console.anthropic.com)
+
+---
 
 ## Privacy
 
-Your git commits are sent to the Claude API to generate summaries. No data is stored or logged by this tool. Review Anthropic's [privacy policy](https://www.anthropic.com/privacy) for API data handling.
+Your git commit messages are sent to the Anthropic API to generate summaries. No data is stored or logged by this tool. See Anthropic's [privacy policy](https://www.anthropic.com/privacy) for API data handling details.
 
-## License
-
-MIT © 2026 Christian Caviedes
+---
 
 ## Contributing
 
-Issues and PRs welcome at [github.com/christiancaviedes/standup-from-git](https://github.com/christiancaviedes/standup-from-git)
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md). Issues and PRs are very welcome — especially new output formats, integrations, or AI prompt improvements.
+
+---
+
+## License
+
+MIT © 2026 [Christian Caviedes](https://github.com/christiancaviedes)
