@@ -1,0 +1,10 @@
+{
+  "git_author": "you@company.com",
+  "jira_url": "https://yourcompany.atlassian.net",
+  "jira_email": "you@company.com",
+  "jira_token": "your-jira-api-token-from-atlassian-account-settings",
+  "slack_webhook_url": "your-slack-webhook-url-here",
+  "default_format": "bullets",
+  "working_hours": "9-17",
+  "team_name": "Platform Team"
+}

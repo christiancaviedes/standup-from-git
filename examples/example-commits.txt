@@ -1,0 +1,16 @@
+# Example git log output that standup-from-git parses
+# Format: hash|subject|body|date
+
+a1b2c3d4|feat(auth): implement JWT refresh token rotation|AUTH-234|2026-04-17 16:42:31 -0700
+e5f6g7h8|fix(api): resolve pagination bug causing duplicate entries|Fixes BUG-891. The offset calculation was off by one when fetching the second page.|2026-04-17 14:23:15 -0700
+i9j0k1l2|chore: update axios to 1.7.0 for security patch||2026-04-17 11:05:44 -0700
+m3n4o5p6|feat(search): add fuzzy matching to search endpoint|SEARCH-156|2026-04-17 10:30:22 -0700
+q7r8s9t0|test: add integration tests for auth flow||2026-04-17 09:15:33 -0700
+u1v2w3x4|refactor: extract rate limiter into middleware|AUTH-235 - prep work for rate limiting feature|2026-04-16 17:55:00 -0700
+y5z6a7b8|docs: update API documentation for v2 endpoints||2026-04-16 16:30:11 -0700
+c9d0e1f2|fix(dashboard): correct timezone handling in date filters|BUG-887|2026-04-16 14:22:45 -0700
+
+# The tool extracts:
+# - Commit messages grouped by date
+# - Ticket numbers (AUTH-234, BUG-891, etc.)
+# - Conventional commit types (feat, fix, chore, etc.)
