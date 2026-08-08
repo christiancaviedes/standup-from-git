@@ -11,7 +11,8 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test",
-    "lint": "eslint src/"
+    "lint": "eslint src/ tests/",
+    "check": "npm run test && npm run lint"
   },
   "keywords": [
     "standup",
@@ -44,6 +45,7 @@
     "inquirer": "^9.2.0"
   },
   "devDependencies": {
-    "eslint": "^9.0.0"
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0"
   }
 }

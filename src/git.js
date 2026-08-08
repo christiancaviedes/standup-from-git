@@ -32,7 +32,7 @@ export async function getCommits({ since, until, repo, author }) {
   }
 }
 
-function parseGitLog(output) {
+export function parseGitLog(output) {
   const commits = [];
   const entries = output.split('\n').filter(line => line.includes('|'));
 
@@ -53,16 +53,16 @@ function parseGitLog(output) {
   return commits;
 }
 
-function extractTickets(text) {
+export function extractTickets(text) {
   const pattern = /([A-Z]+-\d+)/g;
   const matches = text.match(pattern);
   return matches ? [...new Set(matches)] : [];
 }
 
-function parseDate(input) {
+export function parseDate(input, now = new Date()) {
   if (!input) return new Date().toISOString().split('T')[0];
 
-  const today = new Date();
+  const today = new Date(now);
   const normalized = input.toLowerCase().trim();
 
   if (normalized === 'today') {

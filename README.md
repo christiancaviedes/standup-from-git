@@ -1,6 +1,6 @@
 # standup-from-git
 
-[![npm version](https://img.shields.io/npm/v/standup-from-git.svg)](https://www.npmjs.com/package/standup-from-git)
+[![CI](https://github.com/christiancaviedes/standup-from-git/actions/workflows/ci.yml/badge.svg)](https://github.com/christiancaviedes/standup-from-git/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/christiancaviedes/standup-from-git/pulls)
@@ -29,11 +29,14 @@ No more "uhh I think I worked on auth stuff?" moments. Your commits tell the sto
 ## Install
 
 ```bash
-# Install globally
-npm install -g standup-from-git
+# Install directly from the verified GitHub repository
+npm install -g github:christiancaviedes/standup-from-git
 
-# Or use without installing
-npx standup-from-git
+# Or clone it for local development
+git clone https://github.com/christiancaviedes/standup-from-git.git
+cd standup-from-git
+npm ci
+npm link
 ```
 
 ---
@@ -166,6 +169,9 @@ standup config
 - Node.js 18+
 - Git
 - [Anthropic API key](https://console.anthropic.com)
+
+> npm registry publication is not currently advertised. The supported install
+> path is the public GitHub repository above.
 
 ---
 
